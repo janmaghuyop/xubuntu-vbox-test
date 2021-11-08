@@ -1,0 +1,47 @@
+---
+- name: xubuntu
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+  - name: remove packages
+    apt:
+      name: "{{ packages }}"
+      state: absent
+      autoremove: yes
+      purge: yes
+    vars:
+      packages:
+      - gnome-mines
+      - gnome-sudoku
+      - thunderbird
+      - libreoffice*
+      - transmission*
+      - pidgin*
+      - xfce4-notes*
+      - sgt*
+      - parole
+      - xfburn
+      - catfish
+      - atril
+      - xfce4-dict
+      - simple-scan
+      - ristretto
+      - mugshot
+      - gimp*
+      - gigolo*
+    ignore_errors: yes
+    become: yes
+
+  - name: install tools
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - git
+      - tig
+      - vim
+      - htop
+      - ncdu
+    become: yes
