@@ -68,4 +68,10 @@
       xfconf-query -c xfwm4 -p /general/theme -s "Numix"
       xfconf-query -c xfwm4 -p /general/use_compositing -s "false"
 
-
+  - name: set user no sudo password
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      line: '{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s'
+    become: yes

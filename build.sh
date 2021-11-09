@@ -103,9 +103,8 @@ sshpass -p $PASS ssh -o StrictHostKeyChecking=no $USER@$(GET_IP) <<EOF
   conda update -y conda
   conda install -c conda-forge -y ansible
   ansible-playbook playbook.yml --user=$USER --extra-vars "ansible_sudo_pass=$PASS"
+  sudo reboot
 EOF
-
-#vboxmanage controlvm $NAME reset
 
 echo "done!"
 
