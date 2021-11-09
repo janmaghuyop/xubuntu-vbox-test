@@ -73,6 +73,10 @@ sed -i 's/^default vesa.*/default install/' "$aux_base_path"/isolinux-isolinux.c
 # shared folder
 vboxmanage sharedfolder add $NAME --name shared -hostpath $(pwd) -automount
 
+# enable drag and drop, clipboard
+vboxmanage modifyvm $NAME --draganddrop bidirectional
+vboxmanage modifyvm $NAME --clipboard bidirectional
+
 # start vm
 vboxmanage startvm $NAME
 
