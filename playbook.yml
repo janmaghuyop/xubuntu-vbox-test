@@ -5,6 +5,20 @@
   gather_facts: False
 
   tasks:
+  - name: enable auto login
+    copy:
+      dest: "/etc/lightdm/lightdm.conf.d/auto_login.conf"
+      content: |
+        [SeatDefaults]
+        autologin-user={{ ansible_user }}
+    become: yes
+
+  - name: restart lightdm
+    service:
+      name: lightdm
+      state: restarted
+    become: yes
+
   - name: remove packages
     apt:
       name: "{{ packages }}"
@@ -45,3 +59,13 @@
       - htop
       - ncdu
     become: yes
+
+  - name: use minimal settings
+    shell: |
+      xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitorVGA-1/workspace0/image-style -s "0"
+      xfconf-query -c xfce4-desktop -p /desktop-icons/style -s 0
+      xfconf-query -c xfce4-panel -p /panels/panel-0/autohide-behavior -s 2
+      xfconf-query -c xfwm4 -p /general/theme -s "Numix"
+      xfconf-query -c xfwm4 -p /general/use_compositing -s "false"
+
+

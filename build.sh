@@ -25,8 +25,8 @@ TORRENT=${URL##*/}
 
 ISO="${TORRENT%.*}"
 if [ ! -f "$ISO" ]; then
-    wget $URL
-    aria2c --seed-time=0 "$TORRENT"
+  wget $URL
+  aria2c --seed-time=0 "$TORRENT"
 fi
 
 
@@ -79,7 +79,7 @@ vboxmanage startvm $NAME
 
 # wait for ssh
 GET_IP () {
-    vboxmanage guestproperty get $NAME "/VirtualBox/GuestInfo/Net/1/V4/IP" | awk '{print $2}'
+  vboxmanage guestproperty get $NAME "/VirtualBox/GuestInfo/Net/1/V4/IP" | awk '{print $2}'
 }
 
 SECONDS=0
@@ -93,11 +93,11 @@ echo ""
 
 
 # provision
-sshpass -p test scp -o StrictHostKeyChecking=no playbook.yml test@$(GET_IP):~
-sshpass -p test ssh -o StrictHostKeyChecking=no test@$(GET_IP) <<EOF
+sshpass -p $PASS scp -o StrictHostKeyChecking=no playbook.yml $USER@$(GET_IP):~
+sshpass -p $PASS ssh -o StrictHostKeyChecking=no $USER@$(GET_IP) <<EOF
   cd ~
   wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-  export INSTALL_DIR=~/miniconda3
+  INSTALL_DIR=~/miniconda3
   bash Miniconda3-latest-Linux-x86_64.sh -b -f -p $INSTALL_DIR
   PATH=\$INSTALL_DIR/bin:\$PATH
   conda update -y conda
@@ -105,7 +105,7 @@ sshpass -p test ssh -o StrictHostKeyChecking=no test@$(GET_IP) <<EOF
   ansible-playbook playbook.yml --user=$USER --extra-vars "ansible_sudo_pass=$PASS"
 EOF
 
-vboxmanage controlvm $NAME reset
+#vboxmanage controlvm $NAME reset
 
 echo "done!"
 
