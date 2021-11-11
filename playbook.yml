@@ -45,6 +45,7 @@
       - mugshot
       - gimp*
       - gigolo*
+      - xfce4-screensaver
     ignore_errors: yes
     become: yes
 
@@ -67,8 +68,6 @@
       xfconf-query -c xfce4-panel -p /panels/panel-0/autohide-behavior -s 2
       xfconf-query -c xfwm4 -p /general/theme -s "Numix"
       xfconf-query -c xfwm4 -p /general/use_compositing -s "false"
-      # disable lock screen
-      gsettings set org.gnome.desktop.screensaver lock-enabled false
 
   - name: set user no sudo password
     lineinfile:
