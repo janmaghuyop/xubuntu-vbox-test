@@ -75,3 +75,14 @@
       line: '{{ ansible_user }} ALL=(ALL) NOPASSWD: ALL'
       validate: 'visudo -cf %s'
     become: yes
+
+  - name: disable boot splash
+    lineinfile:
+      dest: /etc/default/grub
+      regexp: '^GRUB_CMDLINE_LINUX_DEFAULT.*$'
+      line: 'GRUB_CMDLINE_LINUX_DEFAULT=""'
+    become: yes
+
+  - name: update grub
+    command: update-grub
+    become: yes
