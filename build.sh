@@ -39,6 +39,8 @@ vboxmanage modifyvm $NAME --ioapic on
 vboxmanage modifyvm $NAME --memory $MEM --vram 128
 vboxmanage modifyvm $NAME --nic1 nat
 vboxmanage modifyvm $NAME --nic2 hostonly --hostonlyadapter2 vboxnet0
+vboxmanage modifyvm $NAME --nested-hw-virt on
+
 
 # create and attach disk
 vboxmanage createhd --filename $(pwd)/$NAME/$NAME.vdi --size 50000 --format VDI
